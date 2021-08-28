@@ -8,7 +8,9 @@
  import { createToken } from '../utilities/jwthandler.js';
  import { checkUserPassword } from '../utilities/passwordHandler.js'
  import {saveRefToken } from '../utilities/refreshTokenHandler.js'
+ import { getKey } from '../utilities/keypairHandler.js'
  import createError from "http-errors";
+
 
 
  /**
