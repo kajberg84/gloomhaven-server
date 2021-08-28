@@ -4,11 +4,10 @@
  * @author Kaj Berg
  * @version 0.1.0
  */
- import UserModel from '../models/usermodel.js'
+ import UserModel from '../models/userModel.js';
  import { createToken } from '../utilities/jwthandler.js';
- import { checkUserPassword } from '../utilities/passwordHandler.js'
- import {saveRefToken } from '../utilities/refreshTokenHandler.js'
- import { getKey } from '../utilities/keypairHandler.js'
+ import { checkUserPassword } from '../utilities/passwordHandler.js';
+ import {saveRefToken } from '../utilities/refreshTokenHandler.js';
  import createError from "http-errors";
 
 

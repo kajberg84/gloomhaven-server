@@ -5,7 +5,7 @@
  * @version 0.1.0
  */
 
-import UserModel from "../models/usermodel.js";
+import UserModel from "../models/userModel.js";
 import createError from "http-errors";
 import { hashThisPassword } from "../utilities/passwordHandler.js";
 

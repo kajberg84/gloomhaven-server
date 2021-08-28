@@ -8,7 +8,9 @@ import express from "express";
 import { homeRouter } from "./home-router.js";
 import { userRouter } from "./user-router.js";
 import { loginRouter } from "./login-router.js";
-import { tokenRouter } from './token-router.js'
+import { tokenRouter } from './token-router.js';
+import { gloomRouter } from './gloom-router.js';
+
 import createError from 'http-errors'
 
 export const router = express.Router();
@@ -24,6 +26,9 @@ router.use("/", homeRouter);
 
 // Token router
 router.use('/refresh', tokenRouter)
+
+// Gloom router
+router.use('/gloom', gloomRouter)
 
 // Catch 404 as last route
 router.use("*", (req, res, next) => next(createError(404)));

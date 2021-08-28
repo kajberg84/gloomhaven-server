@@ -3,7 +3,7 @@
 import jwt from 'jsonwebtoken'
 import jwtDecode from "jwt-decode";
 import createError from "http-errors";
-import UserModel from "../models/usermodel.js";
+import UserModel from "../models/userModel.js";
 import { createToken } from "./jwtHandler.js";
 /**
  * Refresh accestoken
