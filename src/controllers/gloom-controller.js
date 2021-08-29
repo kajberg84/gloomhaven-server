@@ -20,13 +20,10 @@
     * @param {Function} next - Express next middleware function.
     */
    async get (req, res, next) {
-     console.log("req.user____",req.user)
      try { 
        const gloomList = await GloomModel.find({
          userId: req.user.userId
      }) 
-     console.log("___", gloomList[0]) 
-     console.log("glooms", gloomList[0].glooms)
      const glooms = gloomList[0].glooms
        res.status(200).json(glooms)
      } catch (error) {
@@ -45,6 +42,7 @@
     * @param {Function} next - Express next middleware function.
     */
     async create (req, res, next) {
+      console.log("i post glooms", req.body);
       // Settings for search
       const { glooms } = req.body
       const { userId } = req.user
