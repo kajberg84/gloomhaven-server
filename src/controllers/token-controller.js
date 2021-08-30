@@ -20,28 +20,34 @@
  * @param {Function} next - Express next middleware function.
  */
  async refreshToken (req, res, next) {
+   console.log("______________",req.user)
  try {
      const payload = { ...req.user };
 
-     // Creating a new accesstoken
-     const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-       algorithm: "HS256",
-       expiresIn: process.env.ACCESS_TOKEN_LIFE,
-     });
+// Creating accessToken/ refreshconfig
+const accConfig = {
+  secret: process.env.ACCESS_TOKEN_SECRET,
+  life: process.env.ACCESS_TOKEN_LIFE,
+  payload: payload
+};
+const refConfig = {
+  secret: process.env.REFRESH_TOKEN_SECRET,
+  life: process.env.REFRESH_TOKEN_LIFE,
+  payload: payload
+};
+// creating tokens
+const accessToken = createToken(accConfig);
+const refreshToken = createToken(refConfig);
 
-     // Creating a new refreshtoken
-     const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
-       algorithm: "HS256",
-       expiresIn: process.env.REFRESH_TOKEN_LIFE,
-     });
+await saveRefToken(user._id, refreshToken);
 
      res.status(200).json({
        access_token: accessToken,
        refresh_token: refreshToken,
      });
    } catch (error) {
-   console.log('error i refreshtoken')
-   next(error)
+   console.log('error i refreshtoken', error.message)
+   next(createError(403, "error refreshToken"))
  }
  }
  }

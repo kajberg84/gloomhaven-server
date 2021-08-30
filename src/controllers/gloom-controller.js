@@ -42,7 +42,7 @@
     * @param {Function} next - Express next middleware function.
     */
     async create (req, res, next) {
-      console.log("i post glooms", req.body);
+      console.log("i post glooms ");
       // Settings for search
       const { glooms } = req.body
       const { userId } = req.user

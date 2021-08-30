@@ -21,7 +21,7 @@ export const authAccessToken = async (req, res, next) => {
     return;
   }
   try {
-    console.log("__Verifying access___");
+    console.log("__Verifying access___", authorization[1]);
     const accessTokenResult = jwt.verify(
       authorization[1],
       process.env.ACCESS_TOKEN_SECRET
@@ -39,6 +39,7 @@ export const authAccessToken = async (req, res, next) => {
       console.log("___access token expired-creating new___");
       //check reftoken, decode to get userId
       const { userId } = jwtDecode(authorization[1]);
+      console.log("___created new for user,", userId);
       const userInfo = await authRefreshToken(userId);
       req.user = { ...userInfo };
       return next();

@@ -12,42 +12,38 @@ import { createToken } from "./jwtHandler.js";
  * @param {object} res - Express response object.
  * @param {Function} next - Express next middleware function.
  */
-export const authRefreshToken = async (userId) => {
-  console.log('_i autreftoken', userId)
+export const authRefreshToken = async (userid2) => {
+  console.log('_i autreftoken rad16 userid', userid2)
   try {
-    const refMongo = await UserModel.findOne({ _id: userId });
+    console.log("___i autreftoken rad18 ref try")
+    const refMongo = await UserModel.findOne({ _id: userid2 });
     if (!refMongo) {
       console.log("no user/reftoken exist");
       throw createError(409);
     }
-
+    console.log("___autreftoken 24, refmongo",refMongo)
     // getting token from Mongo Db
     const { refToken } = refMongo;
+    console.log("___autreftoken 27, reftoken", refToken)
+
     const refTokenResult = jwt.verify(
       refToken,
       process.env.REFRESH_TOKEN_SECRET
     );
-
+      console.log("___autreftoken 33,reftokenResult",refTokenResult);
     //If not ref token
     if (!refTokenResult) {
       console.log("error i authRefresh, refToken");
       throw createError(403);
     }
 
-    const user = await UserModel.findOne({ _id: userId });
     // Creating payload for jwt
     const payload = {
-      userId: user._id,
-      email: user.email,
-      permissionLevel: user.permissionLevel,
+      userId: refMongo._id,
+      email: refMongo.email,
+      permissionLevel: refMongo.permissionLevel,
     };
 
-    // Creating accessToken/ refreshconfig
-    const accConfig = {
-      secret: process.env.ACCESS_TOKEN_SECRET,
-      life: process.env.ACCESS_TOKEN_LIFE,
-      payload: payload,
-    };
     const refConfig = {
       secret: process.env.REFRESH_TOKEN_SECRET,
       life: process.env.REFRESH_TOKEN_LIFE,
@@ -55,11 +51,12 @@ export const authRefreshToken = async (userId) => {
     };
 
     // creating tokens
-    const accessToken = createToken(accConfig);
+    // const accessToken = createToken(accConfig);
     const refreshToken = createToken(refConfig);
-
+ console.log("rad 60 i authresfresh token före save", refreshToken);
     //refreshToken uppdateras
-    saveRefToken(user._id, refreshToken)
+    saveRefToken(refMongo._id, refreshToken)
+    console.log("rad 60 i authresfresh token efter save");
 
     // const decodeResult = jwtDecode(accessToken);
     // const { userId:newId, email, permissionLevel } = decodeResult;
@@ -67,7 +64,7 @@ export const authRefreshToken = async (userId) => {
     return payload;
   } catch (error) {
     console.log("Error in authreftoken");
-    throw createError(409);
+    throw createError(409, "error i authRefToken");
   }
 };
 
@@ -88,6 +85,7 @@ export const saveRefToken = async (userId, refreshToken ) => {
     await UserModel.findOneAndUpdate(filter, update, options);
     return
   } catch (error) {
+    console.log('_i autreftoken', userId)
     console.log("error i saveRefToken");
     throw createError(403);
   }
