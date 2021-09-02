@@ -10,19 +10,21 @@ import { userRouter } from "./user-router.js";
 import { loginRouter } from "./login-router.js";
 import { tokenRouter } from './token-router.js';
 import { gloomRouter } from './gloom-router.js';
+import { heroesRouter } from './heroes-router.js';
+
 
 import createError from 'http-errors'
 
 export const router = express.Router();
 
 // User router
-router.use("/users", userRouter);
+router.use('/users', userRouter);
 
 // Login user
-router.use("/login", loginRouter);
+router.use('/login', loginRouter);
 
 // Default router
-router.use("/", homeRouter);
+router.use('/', homeRouter);
 
 // Token router
 router.use('/refresh', tokenRouter)
@@ -30,5 +32,8 @@ router.use('/refresh', tokenRouter)
 // Gloom router
 router.use('/gloom', gloomRouter)
 
+// Heroes router
+router.use('/heroes', heroesRouter)
+
 // Catch 404 as last route
-router.use("*", (req, res, next) => next(createError(404)));
+router.use('*', (req, res, next) => next(createError(404)));

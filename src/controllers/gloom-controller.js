@@ -11,7 +11,7 @@
    * Encapsulates a controller.
    */
    export class GloomController {
- 
+
    /**
     * Get glooms. 
     *
@@ -23,7 +23,7 @@
      try { 
        const gloomList = await GloomModel.find({
          userId: req.user.userId
-     }) 
+     })
      const glooms = gloomList[0].glooms
        res.status(200).json(glooms)
      } catch (error) {
@@ -42,14 +42,13 @@
     * @param {Function} next - Express next middleware function.
     */
     async create (req, res, next) {
-      console.log("i post glooms ");
       // Settings for search
       const { glooms } = req.body
       const { userId } = req.user
       const filter = {userId: userId}
       const update = {glooms: glooms}
-      // new: true = if empty creating new, upsert = returns updated
-      
+
+      // new: true = if empty creating new, upsert = returns updated      
       const options = { new: true, upsert: true}
     try {
         let updatedGlooms = await GloomModel.findOneAndUpdate(filter, update,options);
