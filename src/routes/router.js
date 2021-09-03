@@ -11,6 +11,7 @@ import { loginRouter } from "./login-router.js";
 import { tokenRouter } from './token-router.js';
 import { gloomRouter } from './gloom-router.js';
 import { heroesRouter } from './heroes-router.js';
+import { repRouter } from './rep-router.js';
 
 
 import createError from 'http-errors'
@@ -34,6 +35,9 @@ router.use('/gloom', gloomRouter)
 
 // Heroes router
 router.use('/heroes', heroesRouter)
+
+// Replist router
+router.use('/replist', repRouter)
 
 // Catch 404 as last route
 router.use('*', (req, res, next) => next(createError(404)));
